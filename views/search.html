@@ -1,0 +1,83 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/> 
+<script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>  
+
+
+<title>Customer Create</title>  
+</head>  
+
+<style>
+.container{
+	width: 900px;
+}
+
+.frm-container{
+	width: 350px;
+	position: relative;
+	left: 10%;
+	top: 42px;
+}
+</style>
+
+<body>    
+  <div style="width:70%;position:relative;left:10%">
+	  <table id="dt_table" class="display" cellspacing="0" width="100%">
+			<thead>
+				<th>First Name</th>
+				<th>Last Name</th>		
+				<th>Date of Birth</th>
+				<th>Gender</th>
+				<th>Email</th>		
+				<th>Address</th>	
+				<th>Actions</th>
+			</thead>
+			<tbody></tbody>
+	   </table>
+   </div>
+   <div class="frm-container">
+	  <a href="save.html"> Create Customer </a>
+  </div>
+</body>  
+</html>  
+
+<script>
+$(document).ready(function() {
+	render_data_table();
+});
+
+function render_data_table() {
+	$('#dt_table').DataTable({
+		"pageLength": 4,
+		"ajax":"http://localhost:8084/home",
+		aoColumns: [
+			{ mData: 'fname' },
+			{ mData: 'lname' },
+			{ mData: 'dob' },
+			{ mData: 'gender' },
+			{ mData: 'email' },
+			{ mData: 'address' },
+			{ mData: 'actions' }
+		]
+	});
+	$("#dt_table_length").hide();
+}
+
+function deleteCustomer(id) {
+	$.ajax({
+     url:"http://localhost:8084/deletecustomer?customerId="+id,
+	 type: 'POST',
+     success:function(json){
+	 console.log(json);
+	 window.location.href = "search.html";
+       }     
+    });
+	
+}
+</script>

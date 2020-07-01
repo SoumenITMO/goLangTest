@@ -1,0 +1,97 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.jqueryui.min.js"></script>
+<script src="https://cdn.datatables.net/scroller/2.0.2/js/dataTables.scroller.min.js"></script>
+
+<title>Customer Create</title>  
+</head>  
+
+<style>
+.container{
+	width: 900px;
+}
+
+.frm-container{
+	width: 350px;
+	position: relative;
+	left: 10%;
+	top: 42px;
+}
+</style>
+
+<body>  
+  <div class="frm-container">
+	  <form action="http://localhost:8084/register" method="POST" id="customer_registration">
+		  <div class="form-group">
+			<label for="firstname">Firstname</label>
+			<input type="text" class="form-control" id="firstname" name="firstname" placeholder="Firstname" value = "" onkeypress="clearErrorStyle(this)">
+		  </div>
+		  
+		  <div class="form-group">
+			<label for="firstname">Lastname</label>
+			<input type="text" class="form-control" id="lastname" name="lastname" placeholder="Lastname" value = "" onkeypress="clearErrorStyle(this)">
+		  </div>
+		  
+		  <div class="form-group">
+			<label for="email">Email address</label>
+			<input type="text" class="form-control" id="email" name="email" placeholder="Email" value = "" onkeypress="clearErrorStyle(this)">
+		  </div>
+		  
+		  <div class="form-group">
+			<label for="address">Address</label>
+			<input type="text" class="form-control" id="address" name="address" placeholder="Address" value = "" onkeypress="clearErrorStyle(this)">
+		  </div>
+		  <div class="form-group">
+			<select id="gender" name="gender">
+			<option value='F'>Female</option>
+			<option value='M'>Male</option>
+			</select>
+		  </div>
+		  <div class="form-group">
+			<label for="dob">Date of Birth</label>
+			<input type="date" class="form-control" id="dob" name="dob">
+		  </div>
+		  <button type="submit" class="btn btn-primary">Save</button>
+	  </form>
+  </div>
+</body>  
+</html>  
+
+<script>
+$(document).ready(function() {
+	$('#customer_registration').submit(function(event){
+		event.preventDefault();
+		save();
+    });
+});
+
+function clearErrorStyle(node) {
+	var id = $(node).attr('id');
+	$("#" + id).css("border","");
+}
+
+function save() {
+	$.ajax({
+		url:"http://localhost:8084/register",
+		type: 'POST',
+		data : $('#customer_registration').serialize(),
+		success:function(json){
+			if(json.length > 0) {
+				for(var i = 0; json.length > i; i++) {
+					$("#" + json[i].field).css("border", "2px solid RED");
+				}
+			}
+			else {
+				window.location.href = "search.html";
+			}
+		}     
+	});
+}
+</script>
