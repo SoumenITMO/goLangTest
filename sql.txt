@@ -1,0 +1,8 @@
+CREATE TABLE customer (
+id SERIAL,
+firstname varchar(80),
+lastname varchar(80),
+dob date,
+gender varchar(1),
+email varchar(100),
+address varchar(100));
